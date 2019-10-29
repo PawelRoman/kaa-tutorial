@@ -9,7 +9,7 @@ with Engine(virtual_resolution=Vector(settings.VIEWPORT_WIDTH, settings.VIEWPORT
     # initialize global controllers and remember them in the registry
     registry.global_controllers.assets_controller = AssetsController()
     # set window to fullscreen mode
-    engine.window.fullscreen = True
+    engine.window.fullscreen = False
     # initialize scenes and remember them in the registry
     registry.scenes.gameplay_scene = GameplayScene()
     engine.run(registry.scenes.gameplay_scene)
