@@ -1,4 +1,5 @@
 from kaa.engine import Scene
+from kaa.input import Keycode
 
 from controllers.player_controller import PlayerController
 
@@ -10,7 +11,10 @@ class GameplayScene(Scene):
         self.player_controller = PlayerController(self)
 
     def update(self, dt):
+        self.player_controller.update(dt)
 
         for event in self.input.events():
+            if event.is_pressing(Keycode.q):
+                self.engine.quit()
             if event.is_quit():
                 self.engine.quit()

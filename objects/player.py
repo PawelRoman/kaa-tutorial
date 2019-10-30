@@ -30,3 +30,13 @@ class Player(Node):
             raise Exception('Unknown weapon type: {}'.format(new_weapon))
         self.add_child(weapon)  # add the weapon node as player's child node
         self.current_weapon = weapon  # remember the current weapon
+
+    def cycle_weapons(self):
+        if self.current_weapon is None:
+            return
+        elif isinstance(self.current_weapon, MachineGun):
+            self.change_weapon(WeaponType.GrenadeLauncher)
+        elif isinstance(self.current_weapon, GrenadeLauncher):
+            self.change_weapon(WeaponType.ForceGun)
+        elif isinstance(self.current_weapon, ForceGun):
+            self.change_weapon(WeaponType.MachineGun)
