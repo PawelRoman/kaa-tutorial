@@ -10,17 +10,20 @@ class PlayerController:
     def __init__(self, scene):
         self.scene = scene
         self.player = Player(position=Vector(settings.VIEWPORT_WIDTH/2, settings.VIEWPORT_HEIGHT/2))
-        self.scene.root.add_child(self.player)
+        self.scene.space.add_child(self.player)
 
     def update(self, dt):
+
+        self.player.velocity=Vector(0,0)
+
         if self.scene.input.is_pressed(Keycode.w):
-            self.player.position += Vector(0, -3)
+            self.player.velocity += Vector(0, -settings.PLAYER_SPEED)
         if self.scene.input.is_pressed(Keycode.s):
-            self.player.position += Vector(0, 3)
+            self.player.velocity += Vector(0, settings.PLAYER_SPEED)
         if self.scene.input.is_pressed(Keycode.a):
-            self.player.position += Vector(-3, 0)
+            self.player.velocity += Vector(-settings.PLAYER_SPEED, 0)
         if self.scene.input.is_pressed(Keycode.d):
-            self.player.position += Vector(3, 0)
+            self.player.velocity += Vector(settings.PLAYER_SPEED, 0)
 
         for event in self.scene.input.events():
             if event.is_pressing(Keycode.tab):

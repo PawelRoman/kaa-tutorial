@@ -1,17 +1,26 @@
-from kaa.nodes import Node
-from kaa.geometry import Vector
+from kaa.physics import BodyNode, BodyNodeType, HitboxNode
+from kaa.geometry import Vector, Polygon
 import registry
-from common.enums import WeaponType
+import settings
+from common.enums import WeaponType, HitboxMask
 from objects.weapons.force_gun import ForceGun
 from objects.weapons.grenade_launcher import GrenadeLauncher
 from objects.weapons.machine_gun import MachineGun
 
 
-class Player(Node):
+class Player(BodyNode):
 
     def __init__(self, position, hp=100):
         # node's properties
-        super().__init__(z_index=10, sprite=registry.global_controllers.assets_controller.player_img, position=position)
+        super().__init__(body_type=BodyNodeType.dynamic, mass=1,
+                         z_index=10, sprite=registry.global_controllers.assets_controller.player_img, position=position)
+        # define a hitbox
+        self.add_child(HitboxNode(
+            shape=Polygon([Vector(-8, -19), Vector(8, -19), Vector(8, 19), Vector(-8, 19), Vector(-8, -19)]),
+            mask=HitboxMask.player,
+            collision_mask=HitboxMask.enemy,
+            trigger_id=settings.COLLISION_TRIGGER_PLAYER
+        ))
         # custom properties
         self.hp = hp
         self.current_weapon = None
