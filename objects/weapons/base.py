@@ -9,17 +9,14 @@ class WeaponBase(Node):
         self.cooldown_time_remaining = 0
 
     def shoot_bullet(self):
-        raise NotImplementedError
+        raise NotImplementedError  # must be implemented in the derived class
 
     def get_cooldown_time(self):
-        raise NotImplementedError
+        raise NotImplementedError  # must be implemented in the derived class
 
-    def calculate_initial_bullet_position(self):
+    def get_initial_bullet_position(self):
         player_pos = self.parent.position
         player_rotation = self.parent.rotation_degrees
-        weapon_length = 25  # the bullet won't originate in the center of the weapon but 25 pixels from it
-
-        result = self.position + player_pos + Vector.from_angle_degrees(player_rotation).normalize()*weapon_length
-
+        weapon_length = 50  # the bullet won't originate in the center of the player position but 50 pixels from it
+        result = player_pos + Vector.from_angle_degrees(player_rotation).normalize()*weapon_length
         return result
-

@@ -6,6 +6,7 @@ from common.enums import WeaponType, HitboxMask
 from objects.weapons.force_gun import ForceGun
 from objects.weapons.grenade_launcher import GrenadeLauncher
 from objects.weapons.machine_gun import MachineGun
+from kaa.colors import Color
 
 
 class Player(BodyNode):
@@ -14,12 +15,12 @@ class Player(BodyNode):
         # node's properties
         super().__init__(body_type=BodyNodeType.dynamic, mass=1,
                          z_index=10, sprite=registry.global_controllers.assets_controller.player_img, position=position)
-        # define a hitbox
+        # create a hitbox and add it as a child node to the Player
         self.add_child(HitboxNode(
             shape=Polygon([Vector(-8, -19), Vector(8, -19), Vector(8, 19), Vector(-8, 19), Vector(-8, -19)]),
             mask=HitboxMask.player,
             collision_mask=HitboxMask.enemy,
-            trigger_id=settings.COLLISION_TRIGGER_PLAYER
+            trigger_id=settings.COLLISION_TRIGGER_PLAYER,
         ))
         # custom properties
         self.hp = hp
