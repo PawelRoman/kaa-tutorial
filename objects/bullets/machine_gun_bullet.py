@@ -1,8 +1,21 @@
-from kaa.nodes import Node
+import random
 import registry
+import settings
+from kaa.physics import BodyNode, BodyNodeType, HitboxNode
+from kaa.geometry import Polygon, Vector
+from common.enums import HitboxMask
 
 
-class MachineGunBullet(Node):
+class MachineGunBullet(BodyNode):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(sprite=registry.global_controllers.assets_controller.machine_gun_bullet_img, *args, **kwargs)
+        super().__init__(sprite=registry.global_controllers.assets_controller.machine_gun_bullet_img,
+                         z_index=30,
+                         body_type=BodyNodeType.kinematic,
+                         lifetime=3000, # will be removed from the scene automatically after 3 secs
+                         *args, **kwargs)
+        self.add_child(HitboxNode(shape=Polygon([Vector(-13, -4), Vector(13,-4), Vector(13,4), Vector(-13,4), Vector(-13,-4)]),
+                                  mask=HitboxMask.bullet,
+                                  collision_mask=HitboxMask.enemy,
+                                  trigger_id=settings.COLLISION_TRIGGER_MG_BULLET))
+

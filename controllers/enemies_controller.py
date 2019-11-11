@@ -25,4 +25,9 @@ class EnemiesController:
         enemy.delete()  # remove from the scene
 
     def update(self, dt):
-        pass
+        for enemy in self.enemies:
+            # handle enemy stagger time and stagger recovery
+            if enemy.stagger_time_left > 0:
+                enemy.stagger_time_left -= dt
+            if enemy.stagger_time_left <= 0:
+                enemy.recover_from_stagger()

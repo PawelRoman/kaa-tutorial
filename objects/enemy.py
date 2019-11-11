@@ -21,3 +21,15 @@ class Enemy(BodyNode):
         ))
         # custom properties
         self.hp = hp
+        self.stagger_time_left = 0
+
+    def stagger(self):
+        # use "stagger" frame
+        self.sprite.frame_current = 1
+        # track time for staying in the staggered state
+        self.stagger_time_left = 150
+
+    def recover_from_stagger(self):
+        self.sprite.frame_current = 0
+        self.stagger_time_left = 0
+
