@@ -1,9 +1,10 @@
 import random
-
+import registry
+import math
 from common.enums import EnemyMovementMode
 from objects.enemy import Enemy
-from kaa.geometry import Vector
-
+from kaa.geometry import Vector, Alignment
+from kaa.nodes import Node
 
 class EnemiesController:
 
@@ -24,6 +25,47 @@ class EnemiesController:
     def remove_enemy(self, enemy):
         self.enemies.remove(enemy)  # remove from the internal list
         enemy.delete()  # remove from the scene
+
+    def apply_explosion_effects(self, explosion_center, damage_at_center=40, blast_radius=150,
+                                pushback_force_at_center=500, pushback_radius=300):
+        enemies_to_remove = []
+        for enemy in self.enemies:
+            # get the distance to the explosion
+            distance_to_explosion = enemy.position.distance(explosion_center)
+
+            # if within pushback radius...
+            if distance_to_explosion<=pushback_radius:
+                # calculate pushback value, the further from the center, the smaller it is
+                pushback_force_val = pushback_force_at_center * (1 - (distance_to_explosion/pushback_radius))
+                # apply the pushback force by resetting enemy velocity
+                enemy.velocity = (enemy.position-explosion_center).normalize()*pushback_force_val
+
+            # if within blast radius...
+            if distance_to_explosion<=blast_radius:
+                # calculate damage, the further from the center, the smaller it is
+                damage = damage_at_center * (1 - (distance_to_explosion/blast_radius))
+                # apply damage
+                enemy.hp -= int(damage)
+                # add the blood splatter animation over the enemy
+                self.scene.root.add_child(Node(z_index=900,
+                                               sprite=registry.global_controllers.assets_controller.blood_splatter_img,
+                                               position=enemy.position, rotation=(enemy.position-explosion_center).to_angle() + math.pi,
+                                               lifetime=140))
+
+                if enemy.hp < 0:  # IZ DED!
+                    # show the death animation
+                    self.scene.root.add_child(Node(z_index=1,
+                                                   sprite=registry.global_controllers.assets_controller.enemy_death_img,
+                                                   position=enemy.position, rotation=enemy.rotation,
+                                                   origin_alignment=Alignment.right,
+                                                   lifetime=10000))
+                    # mark enemy for removal:
+                    enemies_to_remove.append(enemy)
+
+        # removed killed enemies
+        for dead_enemy in enemies_to_remove:
+            self.remove_enemy(dead_enemy)
+
 
     def update(self, dt):
         player_pos = self.scene.player_controller.player.position

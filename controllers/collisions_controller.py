@@ -12,6 +12,8 @@ class CollisionsController:
         self.space = self.scene.space
         self.space.set_collision_handler(settings.COLLISION_TRIGGER_MG_BULLET, settings.COLLISION_TRIGGER_ENEMY,
                                          self.on_collision_mg_bullet_enemy)
+        self.space.set_collision_handler(settings.COLLISION_TRIGGER_GRENADE_LAUNCHER_BULLET, settings.COLLISION_TRIGGER_ENEMY,
+                                         self.on_collision_grenade_enemy)
 
     def on_collision_mg_bullet_enemy(self, arbiter, mg_bullet_pair, enemy_pair):
         # print("Detected a collision between MG bullet object {} hitbox {} and Enemy object {} hitbox {}".format(
@@ -38,3 +40,14 @@ class CollisionsController:
                 enemy.stagger()
 
             mg_bullet_pair.body.delete()  # remove the bullet from the scene
+
+    def on_collision_grenade_enemy(self, arbiter, grenade_pair, enemy_pair):
+
+        if arbiter.phase == CollisionPhase.begin:
+            # show explosion animation
+            self.scene.root.add_child(Node(sprite=registry.global_controllers.assets_controller.explosion_img,
+                                      position=grenade_pair.body.position, z_index=1000, lifetime=12*75))
+            # apply explosion effects to enemies (deal damage & push them back)
+            self.scene.enemies_controller.apply_explosion_effects(grenade_pair.body.position)
+
+            grenade_pair.body.delete()  # remove the grenade from the scene

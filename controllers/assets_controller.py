@@ -21,4 +21,6 @@ class AssetsController:
                                       frame_count=8, animation_loop=False, animation_frame_duration=20)
         self.blood_splatter_img = Sprite(os.path.join('assets', 'gfx', 'blood-splatter.png'), frame_dimensions=Vector(50, 50),
                                       frame_count=7, animation_loop=False, animation_frame_duration=20)
+        self.explosion_img = Sprite(os.path.join('assets', 'gfx', 'explosion.png'), frame_count=75,
+                                    frame_dimensions=Vector(100,100), animation_frame_duration=12, animation_loop=False)
 
