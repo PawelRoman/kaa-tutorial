@@ -12,3 +12,8 @@ class HitboxMask(enum.IntFlag):
     bullet = enum.auto()
 
     all = player | enemy | bullet
+
+
+class EnemyMovementMode(enum.Enum):
+    MoveToWaypoint = 1
+    MoveToPlayer = 2

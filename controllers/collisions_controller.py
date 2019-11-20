@@ -14,8 +14,8 @@ class CollisionsController:
                                          self.on_collision_mg_bullet_enemy)
 
     def on_collision_mg_bullet_enemy(self, arbiter, mg_bullet_pair, enemy_pair):
-        print("Detected a collision between MG bullet object {} hitbox {} and Enemy object {} hitbox {}".format(
-            mg_bullet_pair.body, mg_bullet_pair.hitbox, enemy_pair.body, enemy_pair.hitbox))
+        # print("Detected a collision between MG bullet object {} hitbox {} and Enemy object {} hitbox {}".format(
+        #     mg_bullet_pair.body, mg_bullet_pair.hitbox, enemy_pair.body, enemy_pair.hitbox))
 
         if arbiter.phase == CollisionPhase.begin:
             enemy = enemy_pair.body
@@ -24,7 +24,7 @@ class CollisionsController:
             self.scene.root.add_child(Node(z_index=900,
                                            sprite=registry.global_controllers.assets_controller.blood_splatter_img,
                                            position=enemy.position, rotation=mg_bullet_pair.body.rotation + math.pi,
-                                           lifetime=3000))
+                                           lifetime=140))
             if enemy.hp<=0:
                 # show death animation
                 self.scene.root.add_child(Node(z_index=1,

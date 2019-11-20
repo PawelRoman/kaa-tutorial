@@ -12,7 +12,7 @@ class ForceGunBullet(BodyNode):
         super().__init__(sprite=registry.global_controllers.assets_controller.force_gun_bullet_img,
                          z_index=30,
                          body_type=BodyNodeType.dynamic,
-                         mass=random.uniform(0.5, 2),  # a random mass,
+                         mass=random.uniform(0.5, 8),  # a random mass,
                          lifetime=10000, # will be removed from the scene automatically after 10 secs
                          *args, **kwargs)
         self.add_child(HitboxNode(shape=Circle(radius=10),

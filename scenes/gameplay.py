@@ -11,7 +11,7 @@ class GameplayScene(Scene):
 
     def __init__(self):
         super().__init__()
-        self.space = SpaceNode()
+        self.space = SpaceNode(damping=0.3)
         self.root.add_child(self.space)
         self.player_controller = PlayerController(self)
         self.enemies_controller = EnemiesController(self)
