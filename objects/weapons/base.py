@@ -17,6 +17,6 @@ class WeaponBase(Node):
     def get_initial_bullet_position(self):
         player_pos = self.parent.position
         player_rotation = self.parent.rotation_degrees
-        weapon_length = 50  # the bullet won't originate in the center of the player position but 50 pixels from it
+        weapon_length = 35  # the bullet won't originate in the center of the player position but 30 pixels from it
         result = player_pos + Vector.from_angle_degrees(player_rotation).normalize()*weapon_length
         return result

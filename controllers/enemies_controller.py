@@ -5,6 +5,7 @@ from common.enums import EnemyMovementMode
 from objects.enemy import Enemy
 from kaa.geometry import Vector, Alignment
 from kaa.nodes import Node
+from kaa.fonts import Font
 
 class EnemiesController:
 
@@ -25,8 +26,10 @@ class EnemiesController:
     def remove_enemy(self, enemy):
         self.enemies.remove(enemy)  # remove from the internal list
         enemy.delete()  # remove from the scene
+        # increment the frag counter
+        self.scene.score_frag()
 
-    def apply_explosion_effects(self, explosion_center, damage_at_center=40, blast_radius=150,
+    def apply_explosion_effects(self, explosion_center, damage_at_center=100, blast_radius=200,
                                 pushback_force_at_center=500, pushback_radius=300):
         # play explosion sound
         registry.global_controllers.assets_controller.explosion_sound.play()
@@ -77,8 +80,8 @@ class EnemiesController:
             # handle enemy stagger time and stagger recovery
             if enemy.stagger_time_left > 0:
                 enemy.stagger_time_left -= dt
-            if enemy.stagger_time_left <= 0:
-                enemy.recover_from_stagger()
+                if enemy.stagger_time_left <= 0:
+                    enemy.recover_from_stagger()
 
             # handle enemy movement
             if enemy.movement_mode == EnemyMovementMode.MoveToWaypoint:

@@ -16,7 +16,7 @@ class Enemy(BodyNode):
                          *args, **kwargs)
         # create a hitbox and add it as a child node to the Enemy
         self.add_child(HitboxNode(
-            shape=Polygon([Vector(-8, -19), Vector(8, -19), Vector(8, 19), Vector(-8, 19), Vector(-8, -19)]),
+            shape=Polygon([Vector(-10, -25), Vector(10, -25), Vector(10, 25), Vector(-10, 25), Vector(-10, -25)]),
             mask=HitboxMask.enemy,
             collision_mask=HitboxMask.all,
             trigger_id=settings.COLLISION_TRIGGER_ENEMY,
@@ -37,13 +37,16 @@ class Enemy(BodyNode):
 
 
     def stagger(self):
-        # use "stagger" frame
-        self.sprite.frame_current = 1
+        # use "stagger" sprite
+        self.sprite = registry.global_controllers.assets_controller.enemy_stagger_img
+        # stagger stops enemy from moving:
+        self.velocity = Vector(0, 0)
         # track time for staying in the staggered state
         self.stagger_time_left = 150
 
     def recover_from_stagger(self):
-        self.sprite.frame_current = 0
+        # user regular sprite:
+        self.sprite = registry.global_controllers.assets_controller.enemy_img
         self.stagger_time_left = 0
 
     def randomize_new_waypoint(self):

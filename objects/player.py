@@ -31,11 +31,11 @@ class Player(BodyNode):
         if self.current_weapon is not None:
             self.current_weapon.delete()  # delete the weapon's node from the scene
         if new_weapon == WeaponType.MachineGun:
-            weapon = MachineGun(position=Vector(20, 0))  # position relative to the Player
+            weapon = MachineGun(position=Vector(0, 0))  # position relative to the Player
         elif new_weapon == WeaponType.GrenadeLauncher:
-            weapon = GrenadeLauncher(position=Vector(23, 0))
+            weapon = GrenadeLauncher(position=Vector(0, 0))
         elif new_weapon == WeaponType.ForceGun:
-            weapon = ForceGun(position=Vector(27.5, 0))
+            weapon = ForceGun(position=Vector(0, 0))
         else:
             raise Exception('Unknown weapon type: {}'.format(new_weapon))
         self.add_child(weapon)  # add the weapon node as player's child node
