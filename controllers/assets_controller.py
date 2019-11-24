@@ -1,7 +1,7 @@
 import os
 from kaa.sprites import Sprite
 from kaa.geometry import Vector
-
+from kaa.audio import Sound, Music
 
 class AssetsController:
 
@@ -23,4 +23,13 @@ class AssetsController:
                                       frame_count=7, animation_loop=False, animation_frame_duration=20)
         self.explosion_img = Sprite(os.path.join('assets', 'gfx', 'explosion.png'), frame_count=75,
                                     frame_dimensions=Vector(100,100), animation_frame_duration=12, animation_loop=False)
+
+        # Load all sounds
+        self.mg_shot_sound = Sound(os.path.join('assets', 'sfx', 'mg-shot.wav'))
+        self.force_gun_shot_sound = Sound(os.path.join('assets', 'sfx', 'force-gun-shot.wav'))
+        self.grenade_launcher_shot_sound = Sound(os.path.join('assets', 'sfx', 'grenade-launcher-shot.wav'))
+        self.explosion_sound = Sound(os.path.join('assets', 'sfx', 'explosion.wav'))
+
+        # Load all music tracks
+        self.music_track_1 = Music(os.path.join('assets', 'music', 'track_1.wav'))
 

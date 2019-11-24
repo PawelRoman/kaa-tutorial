@@ -8,6 +8,8 @@ from scenes.gameplay import GameplayScene
 with Engine(virtual_resolution=Vector(settings.VIEWPORT_WIDTH, settings.VIEWPORT_HEIGHT)) as engine:
     # initialize global controllers and remember them in the registry
     registry.global_controllers.assets_controller = AssetsController()
+    # play music
+    registry.global_controllers.assets_controller.music_track_1.play()
     # set window to fullscreen mode
     engine.window.fullscreen = True
     # initialize scenes and remember them in the registry

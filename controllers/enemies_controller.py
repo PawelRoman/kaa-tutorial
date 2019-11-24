@@ -28,6 +28,9 @@ class EnemiesController:
 
     def apply_explosion_effects(self, explosion_center, damage_at_center=40, blast_radius=150,
                                 pushback_force_at_center=500, pushback_radius=300):
+        # play explosion sound
+        registry.global_controllers.assets_controller.explosion_sound.play()
+
         enemies_to_remove = []
         for enemy in self.enemies:
             # get the distance to the explosion

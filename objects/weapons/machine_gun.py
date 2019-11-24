@@ -18,6 +18,8 @@ class MachineGun(WeaponBase):
                                                     rotation_degrees=self.parent.rotation_degrees))
         # reset cooldown time
         self.cooldown_time_remaining =  self.get_cooldown_time()
+        # play shooting sound
+        registry.global_controllers.assets_controller.mg_shot_sound.play()
 
     def get_cooldown_time(self):
         return 100
