@@ -59,12 +59,12 @@ class EnemiesController:
                                                lifetime=140))
 
                 if enemy.hp < 0:  # IZ DED!
-                    # show the death animation
+                    # show the death animation (pick random sprite from few animations we have loaded from one png file)
                     self.scene.root.add_child(Node(z_index=1,
-                                                   sprite=registry.global_controllers.assets_controller.enemy_death_img,
+                                                   sprite=random.choice(registry.global_controllers.assets_controller.enemy_death_imgs),
                                                    position=enemy.position, rotation=enemy.rotation,
                                                    origin_alignment=Alignment.right,
-                                                   lifetime=10000))
+                                                   lifetime=random.randint(10000,20000)))
                     # mark enemy for removal:
                     enemies_to_remove.append(enemy)
 

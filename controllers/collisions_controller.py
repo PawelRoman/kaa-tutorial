@@ -37,10 +37,10 @@ class CollisionsController:
             if enemy.hp<=0:
                 # show death animation
                 self.scene.root.add_child(Node(z_index=1,
-                                               sprite=registry.global_controllers.assets_controller.enemy_death_img,
+                                               sprite=random.choice(registry.global_controllers.assets_controller.enemy_death_imgs),
                                                position=enemy.position, rotation=enemy.rotation,
                                                origin_alignment = Alignment.right,
-                                               lifetime=10000))
+                                               lifetime=random.randint(10000, 20000)))
                 # remove enemy node from the scene
                 self.scene.enemies_controller.remove_enemy(enemy)
             else:
