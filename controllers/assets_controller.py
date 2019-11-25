@@ -28,6 +28,9 @@ class AssetsController:
         self.explosion_img = Sprite(os.path.join('assets', 'gfx', 'explosion.png'), frame_count=75,
                                     frame_dimensions=Vector(100,100), animation_frame_duration=12, animation_loop=False)
 
+        self.bloodstain_imgs = [Sprite(os.path.join('assets', 'gfx', f'bloodstain{i}.png')) for i in range(1, 5)]
+
+
         # Load all sounds
         self.mg_shot_sound = Sound(os.path.join('assets', 'sfx', 'mg-shot.wav'))
         self.force_gun_shot_sound = Sound(os.path.join('assets', 'sfx', 'force-gun-shot.wav'))

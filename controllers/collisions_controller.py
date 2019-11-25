@@ -1,4 +1,5 @@
 import math
+import random
 import settings
 import registry
 from kaa.physics import CollisionPhase
@@ -27,6 +28,12 @@ class CollisionsController:
                                            sprite=registry.global_controllers.assets_controller.blood_splatter_img,
                                            position=enemy.position, rotation=mg_bullet_pair.body.rotation + math.pi,
                                            lifetime=140))
+            # add a random bloodstain - make smaller ones more likely since it's a small arms hit :)
+            self.scene.root.add_child(Node(z_index=1, sprite=random.choices(
+                registry.global_controllers.assets_controller.bloodstain_imgs, weights=[5, 3, 1, 0.5])[0],
+                                           position=enemy.position, rotation=mg_bullet_pair.body.rotation + math.pi,
+                                           lifetime=random.randint(20000, 40000)))
+
             if enemy.hp<=0:
                 # show death animation
                 self.scene.root.add_child(Node(z_index=1,
