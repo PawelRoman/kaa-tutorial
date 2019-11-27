@@ -54,3 +54,5 @@ class GameplayScene(Scene):
                 self.engine.quit()
             if event.is_quit():
                 self.engine.quit()
+            if event.is_pressing(Keycode.escape):
+                self.engine.change_scene(registry.scenes.pause_scene)

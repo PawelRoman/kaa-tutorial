@@ -9,6 +9,7 @@ class AssetsController:
     def __init__(self):
         # Load all images:
         self.background_img = Sprite(os.path.join('assets', 'gfx', 'background.png'))
+        self.title_screen_background_img = Sprite(os.path.join('assets', 'gfx', 'title-screen.png'))
         self.player_img = Sprite(os.path.join('assets', 'gfx', 'player.png'))
         self.machine_gun_img = Sprite(os.path.join('assets', 'gfx', 'machine-gun.png'))
         self.force_gun_img = Sprite(os.path.join('assets', 'gfx', 'force-gun.png'))

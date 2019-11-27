@@ -4,6 +4,8 @@ import settings
 import registry
 from controllers.assets_controller import AssetsController
 from scenes.gameplay import GameplayScene
+from scenes.pause import PauseScene
+from scenes.title_screen import TitleScreenScene
 
 with Engine(virtual_resolution=Vector(settings.VIEWPORT_WIDTH, settings.VIEWPORT_HEIGHT)) as engine:
     # initialize global controllers and remember them in the registry
@@ -14,4 +16,6 @@ with Engine(virtual_resolution=Vector(settings.VIEWPORT_WIDTH, settings.VIEWPORT
     engine.window.fullscreen = True
     # initialize scenes and remember them in the registry
     registry.scenes.gameplay_scene = GameplayScene()
-    engine.run(registry.scenes.gameplay_scene)
+    registry.scenes.title_screen_scene = TitleScreenScene()
+    registry.scenes.pause_scene = PauseScene()
+    engine.run(registry.scenes.title_screen_scene)
