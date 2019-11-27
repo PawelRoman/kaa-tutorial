@@ -41,7 +41,7 @@ class PlayerController:
                 self.scene.enemies_controller.add_enemy(Enemy(position=self.scene.input.get_mouse_position(), rotation_degrees=random.randint(0,360)))
 
 
-        mouse_pos = self.scene.input.get_mouse_position()
+        mouse_pos = self.scene.camera.unproject_position(self.scene.input.get_mouse_position())
         player_rotation_vector = mouse_pos - self.player.position
         self.player.rotation_degrees = player_rotation_vector.to_angle_degrees()
 

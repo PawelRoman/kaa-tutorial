@@ -33,6 +33,5 @@ class TitleScreenScene(Scene):
                 self.engine.quit()
             if event.is_quit():
                 self.engine.quit()
-
-        if self.input.is_pressed(Mousecode.left):
-            self.start_new_game()
+            if event.is_pressing(Mousecode.left):
+                self.start_new_game()

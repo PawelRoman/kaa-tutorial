@@ -56,3 +56,22 @@ class GameplayScene(Scene):
                 self.engine.quit()
             if event.is_pressing(Keycode.escape):
                 self.engine.change_scene(registry.scenes.pause_scene)
+
+        if self.input.is_pressed(Keycode.left):
+            self.camera.position -= Vector(-0.1 * dt, 0)
+        if self.input.is_pressed(Keycode.right):
+            self.camera.position -= Vector(0.1 * dt, 0)
+        if self.input.is_pressed(Keycode.up):
+            self.camera.position -= Vector(0, -0.1 * dt)
+        if self.input.is_pressed(Keycode.down):
+            self.camera.position -= Vector(0, 0.1 * dt)
+
+        if self.input.is_pressed(Keycode.pageup):
+            self.camera.scale -= Vector(0.001*dt, 0.001*dt)
+        if self.input.is_pressed(Keycode.pagedown):
+            self.camera.scale += Vector(0.001*dt, 0.001*dt)
+
+        if self.input.is_pressed(Keycode.home):
+            self.camera.rotation_degrees += 0.03 * dt
+        if self.input.is_pressed(Keycode.end):
+            self.camera.rotation_degrees += 0.03 * dt
