@@ -74,4 +74,4 @@ class GameplayScene(Scene):
         if self.input.is_pressed(Keycode.home):
             self.camera.rotation_degrees += 0.03 * dt
         if self.input.is_pressed(Keycode.end):
-            self.camera.rotation_degrees += 0.03 * dt
+            self.camera.rotation_degrees -= 0.03 * dt

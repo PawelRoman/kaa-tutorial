@@ -38,7 +38,8 @@ class PlayerController:
             elif event.is_pressing(Keycode.num_3):
                 self.player.change_weapon(WeaponType.ForceGun)
             elif event.is_pressing(Keycode.space):
-                self.scene.enemies_controller.add_enemy(Enemy(position=self.scene.input.get_mouse_position(), rotation_degrees=random.randint(0,360)))
+                self.scene.enemies_controller.add_enemy(Enemy(position=self.scene.camera.unproject_position(
+                    self.scene.input.get_mouse_position()), rotation_degrees=random.randint(0,360)))
 
 
         mouse_pos = self.scene.camera.unproject_position(self.scene.input.get_mouse_position())
