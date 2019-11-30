@@ -21,7 +21,7 @@ class AssetsController:
         self.enemy_img = Sprite(os.path.join('assets', 'gfx', 'enemy.png'), frame_dimensions=Vector(33, 74),
                                 frame_count=8, animation_frame_duration=50, animation_loop=True)
         self.enemy_stagger_img = Sprite(os.path.join('assets', 'gfx', 'enemy-stagger.png'))
-
+        # enemy-death.png has a few death animations, so make this a list
         self.enemy_death_imgs = [Sprite(os.path.join('assets','gfx','enemy-death.png'), frame_dimensions=Vector(103, 74),
                                       frame_count=9, animation_loop=False, animation_frame_duration=50).crop(
             Vector(0, i*74), Vector(103*9, 74)) for i in range(0, 5)]
@@ -29,7 +29,7 @@ class AssetsController:
                                       frame_count=7, animation_loop=False, animation_frame_duration=20)
         self.explosion_img = Sprite(os.path.join('assets', 'gfx', 'explosion.png'), frame_count=75,
                                     frame_dimensions=Vector(100,100), animation_frame_duration=12, animation_loop=False)
-
+        # few variants of bloodstains, put them in the same list so we can pick them randomly later
         self.bloodstain_imgs = [Sprite(os.path.join('assets', 'gfx', f'bloodstain{i}.png')) for i in range(1, 5)]
 
 
