@@ -36,17 +36,12 @@ class TitleScreenScene(Scene):
         registry.global_controllers.assets_controller.explosion_sound.play()
 
     def transitions_fun_stuff(self):
-        move_transition = NodePositionTransition(Vector(-50, 200), duration=1000, advance_method=AttributeTransitionMethod.add)
-        callback_transition = NodeTransitionCallback(self.transition_callback_function)
         rotate_transition = NodeRotationTransition(2*math.pi, duration=1000) # rotate 180 degrees (2*pi radians)
-        wait_transition = NodeTransitionDelay(duration=500)
         scale_transition = NodeScaleTransition(Vector(2, 2), duration=1000) # enlarge twice
         color_transition = NodeColorTransition(Color(1, 0, 0, 1), duration=1000) # change color to red
-        transition_sequence = NodeTransitionsSequence([move_transition, callback_transition,
-                                                       rotate_transition, wait_transition,
-                                                       scale_transition, color_transition])
-        self.exit_label.transition = transition_sequence
 
+        self.exit_label.transition = NodeTransitionsParallel([rotate_transition, scale_transition, color_transition],
+                                                             back_and_forth=True, loops=0)
 
     def update(self, dt):
         for event in self.input.events():
