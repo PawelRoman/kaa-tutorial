@@ -1,7 +1,7 @@
 import random
 
 import settings
-from kaa.input import Keycode, Mousecode
+from kaa.input import Keycode, MouseButton
 from common.enums import WeaponType
 from objects.enemy import Enemy
 from objects.player import Player
@@ -19,30 +19,31 @@ class PlayerController:
 
         self.player.velocity=Vector(0,0)
 
-        if self.scene.input.is_pressed(Keycode.w):
+        if self.scene.input.keyboard.is_pressed(Keycode.w):
             self.player.velocity += Vector(0, -settings.PLAYER_SPEED)
-        if self.scene.input.is_pressed(Keycode.s):
+        if self.scene.input.keyboard.is_pressed(Keycode.s):
             self.player.velocity += Vector(0, settings.PLAYER_SPEED)
-        if self.scene.input.is_pressed(Keycode.a):
+        if self.scene.input.keyboard.is_pressed(Keycode.a):
             self.player.velocity += Vector(-settings.PLAYER_SPEED, 0)
-        if self.scene.input.is_pressed(Keycode.d):
+        if self.scene.input.keyboard.is_pressed(Keycode.d):
             self.player.velocity += Vector(settings.PLAYER_SPEED, 0)
 
         for event in self.scene.input.events():
-            if event.is_pressing(Keycode.tab):
-                self.player.cycle_weapons()
-            elif event.is_pressing(Keycode.num_1):
-                self.player.change_weapon(WeaponType.MachineGun)
-            elif event.is_pressing(Keycode.num_2):
-                self.player.change_weapon(WeaponType.GrenadeLauncher)
-            elif event.is_pressing(Keycode.num_3):
-                self.player.change_weapon(WeaponType.ForceGun)
-            elif event.is_pressing(Keycode.space):
-                self.scene.enemies_controller.add_enemy(Enemy(position=self.scene.camera.unproject_position(
-                    self.scene.input.get_mouse_position()), rotation_degrees=random.randint(0,360)))
+            if event.keyboard:
+                if event.keyboard.is_pressing(Keycode.tab):
+                    self.player.cycle_weapons()
+                elif event.keyboard.is_pressing(Keycode.num_1):
+                    self.player.change_weapon(WeaponType.MachineGun)
+                elif event.keyboard.is_pressing(Keycode.num_2):
+                    self.player.change_weapon(WeaponType.GrenadeLauncher)
+                elif event.keyboard.is_pressing(Keycode.num_3):
+                    self.player.change_weapon(WeaponType.ForceGun)
+                elif event.keyboard.is_pressing(Keycode.space):
+                    self.scene.enemies_controller.add_enemy(Enemy(position=self.scene.camera.unproject_position(
+                        self.scene.input.mouse.get_position()), rotation_degrees=random.randint(0,360)))
 
 
-        mouse_pos = self.scene.camera.unproject_position(self.scene.input.get_mouse_position())
+        mouse_pos = self.scene.camera.unproject_position(self.scene.input.mouse.get_position())
         player_rotation_vector = mouse_pos - self.player.position
         self.player.rotation_degrees = player_rotation_vector.to_angle_degrees()
 
@@ -51,5 +52,5 @@ class PlayerController:
             # decrease weapons cooldown time by dt
             self.player.current_weapon.cooldown_time_remaining -= dt
             # if left mouse button pressed and weapon is ready to shoot, then, well, shoot a bullet!
-            if self.scene.input.is_pressed(Mousecode.left) and self.player.current_weapon.cooldown_time_remaining<0:
+            if self.scene.input.mouse.is_pressed(MouseButton.left) and self.player.current_weapon.cooldown_time_remaining<0:
                 self.player.current_weapon.shoot_bullet()

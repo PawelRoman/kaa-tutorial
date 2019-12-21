@@ -50,28 +50,31 @@ class GameplayScene(Scene):
         self.enemies_controller.update(dt)
 
         for event in self.input.events():
-            if event.is_pressing(Keycode.q):
-                self.engine.quit()
-            if event.is_quit():
-                self.engine.quit()
-            if event.is_pressing(Keycode.escape):
-                self.engine.change_scene(registry.scenes.pause_scene)
+            if event.system:
+                if event.system.quit:
+                    self.engine.quit()
 
-        if self.input.is_pressed(Keycode.left):
+            if event.keyboard:
+                if event.keyboard.is_pressing(Keycode.q):
+                    self.engine.quit()
+                if event.keyboard.is_pressing(Keycode.escape):
+                    self.engine.change_scene(registry.scenes.pause_scene)
+
+        if self.input.keyboard.is_pressed(Keycode.left):
             self.camera.position -= Vector(-0.1 * dt, 0)
-        if self.input.is_pressed(Keycode.right):
+        if self.input.keyboard.is_pressed(Keycode.right):
             self.camera.position -= Vector(0.1 * dt, 0)
-        if self.input.is_pressed(Keycode.up):
+        if self.input.keyboard.is_pressed(Keycode.up):
             self.camera.position -= Vector(0, -0.1 * dt)
-        if self.input.is_pressed(Keycode.down):
+        if self.input.keyboard.is_pressed(Keycode.down):
             self.camera.position -= Vector(0, 0.1 * dt)
 
-        if self.input.is_pressed(Keycode.pageup):
+        if self.input.keyboard.is_pressed(Keycode.pageup):
             self.camera.scale -= Vector(0.001*dt, 0.001*dt)
-        if self.input.is_pressed(Keycode.pagedown):
+        if self.input.keyboard.is_pressed(Keycode.pagedown):
             self.camera.scale += Vector(0.001*dt, 0.001*dt)
 
-        if self.input.is_pressed(Keycode.home):
+        if self.input.keyboard.is_pressed(Keycode.home):
             self.camera.rotation_degrees += 0.03 * dt
-        if self.input.is_pressed(Keycode.end):
+        if self.input.keyboard.is_pressed(Keycode.end):
             self.camera.rotation_degrees -= 0.03 * dt

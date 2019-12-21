@@ -22,10 +22,15 @@ class PauseScene(Scene):
 
 
     def update(self, dt):
+
         for event in self.input.events():
-            if event.is_pressing(Keycode.escape):
-                self.engine.change_scene(registry.scenes.gameplay_scene)
-            if event.is_pressing(Keycode.q):
-                self.engine.change_scene(registry.scenes.title_screen_scene)
-            if event.is_quit():
-                self.engine.quit()
+
+            if event.system:
+                if event.system.is_quit():
+                    self.engine.quit()
+
+            if event.keyboard:
+                if event.keyboard.is_pressing(Keycode.escape):
+                    self.engine.change_scene(registry.scenes.gameplay_scene)
+                if event.keyboard.is_pressing(Keycode.q):
+                    self.engine.change_scene(registry.scenes.title_screen_scene)

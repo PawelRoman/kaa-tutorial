@@ -2,7 +2,7 @@ import registry
 import settings
 import math
 from kaa.engine import Scene
-from kaa.input import Keycode, Mousecode
+from kaa.input import Keycode, MouseButton
 from kaa.nodes import Node
 from kaa.geometry import Vector, Alignment
 from kaa.fonts import TextNode
@@ -40,14 +40,33 @@ class TitleScreenScene(Scene):
         scale_transition = NodeScaleTransition(Vector(2, 2), duration=1000) # enlarge twice
         color_transition = NodeColorTransition(Color(1, 0, 0, 1), duration=1000) # change color to red
 
-        self.exit_label.transition = NodeTransitionsParallel([rotate_transition, scale_transition, color_transition],
-                                                             back_and_forth=True, loops=0)
+        move_transition1 = NodePositionTransition(Vector(-200, 0), duration=1000,
+                                           advance_method=AttributeTransitionMethod.add)
+        move_transition2 = NodePositionTransition(Vector(200, 200), duration=1000,
+                                           advance_method=AttributeTransitionMethod.add)
+        move_transition3 = NodePositionTransition(Vector(200, -200), duration=1000,
+                                           advance_method=AttributeTransitionMethod.add)
+        move_transition4 = NodePositionTransition(Vector(-200, 0), duration=1000,
+                                           advance_method=AttributeTransitionMethod.add)
+
+        move_sequence = NodeTransitionsSequence([move_transition1, move_transition2, move_transition3, move_transition4], loops=0)
+        paralel_sequence = NodeTransitionsParallel([rotate_transition, scale_transition, color_transition], back_and_forth=True, loops=0)
+
+        # run both the movement sequence and rotate+scale+color sequence in paralel
+        self.exit_label.transition = NodeTransitionsParallel([
+            move_sequence, paralel_sequence])
 
     def update(self, dt):
         for event in self.input.events():
-            if event.is_pressing(Keycode.escape):
-                self.engine.quit()
-            if event.is_quit():
-                self.engine.quit()
-            if event.is_pressing(Mousecode.left):
-                self.start_new_game()
+
+            if event.system:
+                if event.system.quit:
+                    self.engine.quit()
+
+            if event.keyboard:
+                if event.keyboard.is_pressing(Keycode.escape):
+                    self.engine.quit()
+
+            if event.mouse:
+                if event.mouse.is_pressing(MouseButton.left):
+                    self.start_new_game()
