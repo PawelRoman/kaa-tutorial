@@ -16,8 +16,8 @@ class GrenadeLauncherBullet(BodyNode):
                          rotation_degrees=random.uniform(0, 360),  # a random rotation between 0 and 360 degs
                          *args, **kwargs)
         self.add_child(HitboxNode(shape=Circle(radius=6),  # circular hitbox
-              mask=HitboxMask.bullet,  # we are bullet
-              collision_mask=HitboxMask.enemy,  # want to collide with objects whose mask is enemy
-              trigger_id=settings.COLLISION_TRIGGER_GRENADE_LAUNCHER_BULLET  # used when registering collision handler function
-              ))
-
+                                  mask=HitboxMask.bullet,  # we are bullet
+                                  collision_mask=HitboxMask.enemy,  # want to collide with objects whose mask is enemy
+                                  trigger_id=settings.COLLISION_TRIGGER_GRENADE_LAUNCHER_BULLET
+                                  # used when registering collision handler function
+                                  ))

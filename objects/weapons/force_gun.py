@@ -6,9 +6,9 @@ from kaa.geometry import Vector
 
 class ForceGun(WeaponBase):
 
-    def __init__(self, position):
+    def __init__(self):
         # node's properties
-        super().__init__(sprite=registry.global_controllers.assets_controller.force_gun_img, position=position)
+        super().__init__(sprite=registry.global_controllers.assets_controller.force_gun_img)
 
     def shoot_bullet(self):
         bullet_position = self.get_initial_bullet_position()

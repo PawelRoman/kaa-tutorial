@@ -1,12 +1,12 @@
 import registry
 import settings
-import math
 from kaa.engine import Scene
 from kaa.input import Keycode, MouseButton
 from kaa.nodes import Node
 from kaa.geometry import Vector, Alignment
 from kaa.fonts import TextNode
 from kaa.transitions import *
+import math
 from kaa.colors import Color
 
 from scenes.gameplay import GameplayScene
@@ -31,43 +31,42 @@ class TitleScreenScene(Scene):
         registry.scenes.gameplay_scene = GameplayScene()
         self.engine.change_scene(registry.scenes.gameplay_scene)
 
+    def update(self, dt):
+        for event in self.input.events():
+
+            if event.keyboard_key:
+                if event.keyboard_key.is_key_down and event.keyboard_key.key == Keycode.escape:
+                    self.engine.quit()
+
+            if event.mouse_button:
+                #print('mouse button event {}'.format(event.mouse_button.button))
+                if event.mouse_button.is_button_down and event.mouse_button.button() == MouseButton.left:
+                    self.engine.change_scene(registry.scenes.gameplay_scene)
+            if event.mouse_button and event.mouse_button.is_button_down and event.mouse_button.button() == MouseButton.left:
+                self.start_new_game()
+
     def transition_callback_function(self, node):
+        # play explosion sound
         registry.global_controllers.assets_controller.explosion_sound.play()
 
     def transitions_fun_stuff(self):
-        rotate_transition = NodeRotationTransition(2 * math.pi, duration=1000)  # rotate 180 degrees (2*pi radians)
-        scale_transition = NodeScaleTransition(Vector(2, 2), duration=1000)  # enlarge twice
-        color_transition = NodeColorTransition(Color(1, 0, 0, 1), duration=1000)  # change color to red
+        rotate_transition = NodeRotationTransition(2*math.pi, duration=1000) # rotate 180 degrees (2*pi radians)
+        scale_transition = NodeScaleTransition(Vector(2, 2), duration=1000) # enlarge twice
+        color_transition = NodeColorTransition(Color(1, 0, 0, 1), duration=1000) # change color to red
 
         move_transition1 = NodePositionTransition(Vector(-200, 0), duration=1000,
-                                                  advance_method=AttributeTransitionMethod.add)
+                                           advance_method=AttributeTransitionMethod.add)
         move_transition2 = NodePositionTransition(Vector(200, 200), duration=1000,
-                                                  advance_method=AttributeTransitionMethod.add)
+                                           advance_method=AttributeTransitionMethod.add)
         move_transition3 = NodePositionTransition(Vector(200, -200), duration=1000,
-                                                  advance_method=AttributeTransitionMethod.add)
+                                           advance_method=AttributeTransitionMethod.add)
         move_transition4 = NodePositionTransition(Vector(-200, 0), duration=1000,
-                                                  advance_method=AttributeTransitionMethod.add)
+                                           advance_method=AttributeTransitionMethod.add)
 
-        move_sequence = NodeTransitionsSequence(
-            [move_transition1, move_transition2, move_transition3, move_transition4], loops=0)
-        paralel_sequence = NodeTransitionsParallel([rotate_transition, scale_transition, color_transition],
-                                                   back_and_forth=True, loops=0)
+        move_sequence = NodeTransitionsSequence([move_transition1, move_transition2, move_transition3, move_transition4], loops=0)
+        paralel_sequence = NodeTransitionsParallel([rotate_transition, scale_transition, color_transition], back_and_forth=True, loops=0)
 
         # run both the movement sequence and rotate+scale+color sequence in paralel
         self.exit_label.transition = NodeTransitionsParallel([
             move_sequence, paralel_sequence])
 
-    def update(self, dt):
-        for event in self.input.events():
-
-            if event.system:
-                if event.system.quit:
-                    self.engine.quit()
-
-            if event.keyboard:
-                if event.keyboard.is_pressing(Keycode.escape):
-                    self.engine.quit()
-
-            if event.mouse:
-                if event.mouse.is_pressing(MouseButton.left):
-                    self.start_new_game()

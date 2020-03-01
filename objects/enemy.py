@@ -3,6 +3,7 @@ from kaa.geometry import Vector, Polygon
 from common.enums import HitboxMask, EnemyMovementMode
 import registry
 import settings
+from kaa.transitions import NodeSpriteTransition
 import random
 
 
@@ -10,13 +11,14 @@ class Enemy(BodyNode):
 
     def __init__(self, position, hp=100, *args, **kwargs):
         # node's properties
-        super().__init__(body_type=BodyNodeType.dynamic,
-                         mass=1,
-                         z_index=10, sprite=registry.global_controllers.assets_controller.enemy_img, position=position,
+        super().__init__(body_type=BodyNodeType.dynamic, mass=1,
+                         z_index=10, position=position,
+                         transition=NodeSpriteTransition(registry.global_controllers.assets_controller.enemy_frames,
+                                                         duration=max(200, random.gauss(400, 100)), loops=0),
                          *args, **kwargs)
         # create a hitbox and add it as a child node to the Enemy
         self.add_child(HitboxNode(
-            shape=Polygon([Vector(-10, -25), Vector(10, -25), Vector(10, 25), Vector(-10, 25), Vector(-10, -25)]),
+            shape=Polygon([Vector(-8, -19), Vector(8, -19), Vector(8, 19), Vector(-8, 19), Vector(-8, -19)]),
             mask=HitboxMask.enemy,
             collision_mask=HitboxMask.all,
             trigger_id=settings.COLLISION_TRIGGER_ENEMY,
@@ -24,6 +26,7 @@ class Enemy(BodyNode):
         # custom properties
         self.hp = hp
         self.stagger_time_left = 0
+
         # 75% enemies will move towards player and 25% will move randomly
         if random.randint(0, 100) < 75:
             self.movement_mode = EnemyMovementMode.MoveToPlayer
@@ -35,9 +38,8 @@ class Enemy(BodyNode):
         self.acceleration_per_second = 300  # how fast will enemy accelerate
         self.max_velocity = random.randint(75, 125)  # we'll make enemy stop accelerating if velocity is above this value
 
-
     def stagger(self):
-        # use "stagger" sprite
+        # use the "stagger" sprite
         self.sprite = registry.global_controllers.assets_controller.enemy_stagger_img
         # stagger stops enemy from moving:
         self.velocity = Vector(0, 0)
@@ -45,8 +47,10 @@ class Enemy(BodyNode):
         self.stagger_time_left = 150
 
     def recover_from_stagger(self):
-        # user regular sprite:
-        self.sprite = registry.global_controllers.assets_controller.enemy_img
+        # start using the standard sprite animation again
+        self.transition=NodeSpriteTransition(registry.global_controllers.assets_controller.enemy_frames,
+                                                         duration=max(200, random.gauss(400, 100)), loops=0)
+
         self.stagger_time_left = 0
 
     def randomize_new_waypoint(self):

@@ -1,13 +1,14 @@
-from kaa.physics import BodyNode, BodyNodeType, HitboxNode
-from kaa.geometry import Vector, Polygon
+from kaa.nodes import Node
 import registry
-import settings
-from common.enums import WeaponType, HitboxMask
+from kaa.geometry import Vector
+from common.enums import WeaponType
 from objects.weapons.force_gun import ForceGun
 from objects.weapons.grenade_launcher import GrenadeLauncher
 from objects.weapons.machine_gun import MachineGun
-from kaa.colors import Color
-
+import settings
+from kaa.physics import BodyNode, BodyNodeType, HitboxNode
+from kaa.geometry import Vector, Polygon
+from common.enums import WeaponType, HitboxMask
 
 class Player(BodyNode):
 
@@ -17,10 +18,10 @@ class Player(BodyNode):
                          z_index=10, sprite=registry.global_controllers.assets_controller.player_img, position=position)
         # create a hitbox and add it as a child node to the Player
         self.add_child(HitboxNode(
-            shape=Polygon([Vector(-8, -19), Vector(8, -19), Vector(8, 19), Vector(-8, 19), Vector(-8, -19)]),
+            shape=Polygon([Vector(-10, -25), Vector(10, -25), Vector(10, 25), Vector(-10, 25), Vector(-10, -25)]),
             mask=HitboxMask.player,
             collision_mask=HitboxMask.enemy,
-            trigger_id=settings.COLLISION_TRIGGER_PLAYER,
+            trigger_id=settings.COLLISION_TRIGGER_PLAYER
         ))
         # custom properties
         self.hp = hp
@@ -31,14 +32,14 @@ class Player(BodyNode):
         if self.current_weapon is not None:
             self.current_weapon.delete()  # delete the weapon's node from the scene
         if new_weapon == WeaponType.MachineGun:
-            weapon = MachineGun(position=Vector(0, 0))  # position relative to the Player
+            weapon = MachineGun()  # position relative to the Player
         elif new_weapon == WeaponType.GrenadeLauncher:
-            weapon = GrenadeLauncher(position=Vector(0, 0))
+            weapon = GrenadeLauncher()
         elif new_weapon == WeaponType.ForceGun:
-            weapon = ForceGun(position=Vector(0, 0))
+            weapon = ForceGun()
         else:
             raise Exception('Unknown weapon type: {}'.format(new_weapon))
-        self.add_child(weapon)  # add the weapon node as player's child node
+        self.add_child(weapon)  # add the weapon node as player's child node (to make the weapon move and rotate together with the player)
         self.current_weapon = weapon  # remember the current weapon
 
     def cycle_weapons(self):

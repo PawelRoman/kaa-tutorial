@@ -13,7 +13,7 @@ class ForceGunBullet(BodyNode):
                          z_index=30,
                          body_type=BodyNodeType.dynamic,
                          mass=random.uniform(0.5, 8),  # a random mass,
-                         lifetime=10000, # will be removed from the scene automatically after 10 secs
+                         lifetime=10000,  # will be removed from the scene automatically after 10 secs
                          *args, **kwargs)
         self.add_child(HitboxNode(shape=Circle(radius=10),
                                   mask=HitboxMask.bullet,
