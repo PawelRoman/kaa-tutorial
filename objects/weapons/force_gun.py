@@ -20,4 +20,4 @@ class ForceGun(WeaponBase):
         registry.global_controllers.assets_controller.force_gun_shot_sound.play()
 
     def get_cooldown_time(self):
-        return 250
+        return 0.250

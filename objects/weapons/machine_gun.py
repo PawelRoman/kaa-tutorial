@@ -23,4 +23,4 @@ class MachineGun(WeaponBase):
         registry.global_controllers.assets_controller.mg_shot_sound.play()
 
     def get_cooldown_time(self):
-        return 100
+        return 0.100

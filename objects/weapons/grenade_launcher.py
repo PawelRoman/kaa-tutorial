@@ -24,5 +24,5 @@ class GrenadeLauncher(WeaponBase):
         registry.global_controllers.assets_controller.grenade_launcher_shot_sound.play()
 
     def get_cooldown_time(self):
-        return 1000
+        return 1.000
 
